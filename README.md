@@ -1,10 +1,9 @@
 ## CS194-26 Image Manipulation and Computational Photography
 
-
-### Project 1: Colorizing the Prokudin-Gorskii Photo Collection
+### [Project 1: Colorizing the Prokudin-Gorskii Photo Collection](https://moradshefa.github.io/colorizing_images/)
 
 This program will colorize digitized RGB glass plate negatives downloaded from
-the library of congress (https://www.loc.gov/collections/prokudin-gorskii/?sp=1).
+the [library of congress](https://www.loc.gov/collections/prokudin-gorskii/?sp=1).
 
 
 ### Run
@@ -19,7 +18,7 @@ The output file will be stored in the same folder as the input file and will hav
 
 ### Arguments
 
-You can set the ```verbose``` argument to true and then the intermediate images will also be saved. These include a naive alignment (```_naive.jpg```),, an aligned without cropping (```_aligned.jpg```), an aligned with cropping but no contrasting (```_cut.jpg```),, and the final version with alignment, cropping, and contrasting (```_out.jpg```)
+You can set the ```verbose``` argument to true and then the intermediate images will also be saved. These include a naive alignment (```_naive.jpg```), an aligned without cropping (```_aligned.jpg```), an aligned with cropping but no contrasting (```_cut.jpg```), and the final version with alignment, cropping, and contrasting (```_out.jpg```)
 
 ```
 python3 main.py --imname='images/input/emir.tif' --verbose=True
