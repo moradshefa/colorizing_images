@@ -4,7 +4,7 @@
 ### Project 1: Colorizing the Prokudin-Gorskii Photo Collection
 
 This program will colorize digitized RGB glass plate negatives downloaded from
-the library of congress (https://www.loc.gov/collections/prokudin-gorskii/?sp=1).
+the [library of congress](https://www.loc.gov/collections/prokudin-gorskii/?sp=1).
 
 
 ### Run
