@@ -18,7 +18,7 @@ The output file will be stored in the same folder as the input file and will hav
 
 ### Arguments
 
-You can set the ```verbose``` argument to true and then the intermediate images will also be saved. These include a naive alignment (```_naive.jpg```),, an aligned without cropping (```_aligned.jpg```), an aligned with cropping but no contrasting (```_cut.jpg```),, and the final version with alignment, cropping, and contrasting (```_out.jpg```)
+You can set the ```verbose``` argument to true and then the intermediate images will also be saved. These include a naive alignment (```_naive.jpg```), an aligned without cropping (```_aligned.jpg```), an aligned with cropping but no contrasting (```_cut.jpg```), and the final version with alignment, cropping, and contrasting (```_out.jpg```)
 
 ```
 python3 main.py --imname='images/input/emir.tif' --verbose=True
