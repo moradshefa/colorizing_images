@@ -1,0 +1,399 @@
+<!DOCTYPE>
+<html>
+
+<head>
+  <style>
+    body {
+      padding: 100px;
+      width: 1000px;
+      margin: auto;
+      text-align: left;
+      font-weight: 300;
+      font-family: 'Open Sans', sans-serif;
+      color: #121212;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+  </style>
+
+  <title>CS194-26</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+
+<body>
+
+<h1 align="middle">CS194-26</h1>
+<h1 align="middle">Image Manipulation and Computational Photography</h1>
+<h1 align="middle">Project 1: Colorizing the Prokudin-Gorskii Photo Collection</h1>
+<h2 align="middle">Morad Shefa</h2>
+<br><br>
+
+<div>
+<h2 align="middle">Overview</h2>
+<p>
+  <a href="https://en.wikipedia.org/wiki/Sergey_Prokudin-Gorsky">Sergey Mikhaylovich Prokudin-Gorsky</a> 
+   was a Russian photographer well ahead of his time, known for his pioneering work in color photography of early 20th-century Russia long before we could print colored photography. Imitating human perception of color, he captured black-and-white photographs through different filters. One taken through a red filter, one through a green filter, and one through a blue filter and the information we need to restore a colored image were thus preserved. In this project we use the digitized RGB glass plate negatives to reconstruct the Russian Empire in color!
+  <br><br>
+  To learn more about Prokudin-Gorsky's record click <a href="http://www.loc.gov/exhibits/empire/making.html">here</a>.
+
+  <br>
+  To download other digitized glass plate negatives and run your code or mine click <a href="https://www.loc.gov/collections/prokudin-gorskii/?sp=1">here</a>.
+</p>
+
+<h2 align="middle">Process</h2>
+<p>
+  This is a rough overview of the image processing method used after extracting the color channel images:
+  <ol type="1">
+    <li>Align the 3 channels using edge detection and pyramid technique</li>
+    <li>Crop the borders of the image</li>
+    <li>Adjust the contrast of the image</li>
+  </ol>
+</p>
+
+
+
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/input/emir_.jpg" align="middle" width="400px"/>
+        <figcaption align="middle">Blue, Green, and Red filters</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/emir/emir_out.jpg" align="middle" width="600px"/>
+        <figcaption align="middle">
+          <a href="https://en.wikipedia.org/wiki/Mohammed_Alim_Khan">Emir Said Mir Mohammed Alim Khan</a>
+        </figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<h4 align="middle">Edge detection</h4>
+<p>
+  In order to align images we first do edge detection. I do this so that images that
+  are different in the red, green, and blue color channels look similar. As edges are edges in all channels 
+  the results are better if we align based on them.
+
+  As we can see since the color values are very different in the different channels at the clothing. If we align based on pixel values we assume that pixel values over different channels are similar if we aligned correctly which is not the case.
+
+  However the channels align better if we do a edge detection first.
+
+
+  To do edge detection we first convolve with a 5x5 Gaussian filter to smooth our image in order to reduce our sensitivity to noise.
+  Then we convolve with the horizontal and vertical <a href="https://en.wikipedia.org/wiki/Sobel_operator">Sobel filter</a> to detect horizontal and vertical edges to get the gradients. We then take the gradient of the image to be the magnitude of the horizontal and vertical gradient.
+  <br>
+</p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/screenshots/channels_emir.jpg" align="middle" width="800px"/>
+        <figcaption align="middle">Emir with green and red filters</figcaption>
+      </td>
+      <br>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/screenshots/edge_emir.jpg" align="middle" width="800px"/>
+        <figcaption align="middle">Emir with green and red filters after edge detection</figcaption>
+      </td>
+      <br>
+    </tr>
+  </table>
+</div>
+
+
+
+
+
+<h4 align="middle">1. Alignment</h4>
+
+<p>
+To do alignment we first decimate the image iteratively by 2 until it reaches a feasible size.
+Then we find the best alignment based on normal cross correlation (to measure similarity over different channels) over a large inner window, cutting off the outisde borders. We then gradually go to the higher resolution (one less decimation level) and search over a small window that is around the area in which we found the best alignment in the lower resolution window. 
+
+For example, if the image is 1600x1600 we decimate to 800x800 then 400x400. If we find the best alignment in the 400x400 image to be at translating the image by x=11,y=3 we then search in the 800x800 image in the window x = [20,24] and y = [4,8] and so on until we have the optimal value for the highest resolution image.
+<br>
+</p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/lady/lady_naive.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Lady image without alignment</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/lady/lady_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Lady image with alignment</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+
+<h4 align="middle">2. Cutting</h4>
+
+<p>
+To cut we again do a edge detection to detect long horizontal and vertical lines in the borders of the image. We then threshold the values and find the innermost rows and columns with a large mean. These correspond to the innermost rows and columns that have a long edge in them, i.e. the margins of the image. We do this over all channels and cut according to the innermost border accross the channels.
+
+<br>
+</p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/train/train_aligned.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Train without cropping</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/train/train_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Train with cropping</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+
+
+<h4 align="middle">3. Contrasting</h4>
+
+<p>
+To contrast we find the 1st and 99th percentile pixel values in a channel. We then set all values below the first percentile to the same values of the 1st percentile. We also set all values larger than the 99th percentile equal to the value at the 99th percentile. We then rescale the pixel values to be between 0 and 1.
+<br>
+</p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/lugano/lugano_cut.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Lugano without contrasting</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/lugano/lugano_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Lugano with contrasting</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+
+
+
+<h4 align="middle">Whole Process</h4>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/village/village_naive.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Village image naive alignment</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/village/village_aligned.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Village image with alignment</figcaption>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/village/village_aligned.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Village image no cropping</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/village/village_cut.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Village image with cropping</figcaption>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/village/village_cut.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Village image no contrasting</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/village/village_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Village image with contrasting (Final Result)</figcaption>
+    </tr>
+  </table>
+</div>
+
+
+
+
+
+
+<br><br>
+<h4 align="middle">Final Results and Shifts</h4>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/cathedral/cathedral_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Cathedral; red(12,3), green(5,2)</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/monastery/monastery_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Monastery; red(3,2), green (-3,2)</figcaption>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/nativity/nativity_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Nativity; red(8,0), green(3,1)</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/settlers/settlers_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Settlers; red(15,1), green (7,0)</figcaption>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/emir/emir_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Emir; red(107,40), green(49,23)</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/harvesters/harvesters_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Harvesters; red(123,6), green (60,17)</figcaption>
+    </tr>
+  </table>
+</div>
+
+
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/icon/icon_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Icon; red (91,23), green(42,17)</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/lady/lady_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Lady; red (119,11), green (58,-6)</figcaption>
+    </tr>
+  </table>
+</div>
+
+
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/self_portrait/self_portrait_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">self_portrait; red (175,36), green(42,17)</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/three_generations/three_generations_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Three_generations; red (111,7), green (52,8)</figcaption>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/train/train_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Train; red (85,29), green(41,1)</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/turkmen/turkmen_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Turkmen; red (117,27), green (56,21)</figcaption>
+    </tr>
+
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/village/village_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Village; red (138,25), green(64,12)</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/sacks/sacks_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Sacks; red (123,11), green (52,14)</figcaption>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/lugano/lugano_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Lugano; red (91,-29), green(41,-11)</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/lugano2/lugano2_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Lugano2; red (86,38), green (37,12)</figcaption>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/roses/roses_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Roses; red (82,35), green(31,21)</figcaption>
+      </td>
+      <br>
+      <td>
+        <img src="images/cotton/cotton_out.jpg" align="middle" width="500px"/>
+        <figcaption align="middle">Cotton; red (154,13), green (75,11)</figcaption>
+    </tr>
+  </table>
+</div>
+
+
+</body>
+</html>
