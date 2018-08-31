@@ -35,7 +35,7 @@
 <h2 align="middle">Overview</h2>
 <p>
   <a href="https://en.wikipedia.org/wiki/Sergey_Prokudin-Gorsky">Sergey Mikhaylovich Prokudin-Gorsky</a> 
-   was a Russian photographer well ahead of his time, known for his pioneering work in color photography of early 20th-century Russia long before we could print colored photography. Imitating human perception of color, he captured black-and-white photographs through different filters. One taken through a red filter, one through a green filter, and one through a blue filter and the information we need to restore a colored image were thus preserved. In this project we use the digitized RGB glass plate negatives to reconstruct the Russian Empire in color!
+   was a Russian photographer well ahead of his time, known for his pioneering work in color photography of early 20th-century Russia long before we could print colored photography. Imitating human perception of color, he captured black-and-white photographs through different filters. Using red, green, and blue filters the information we need to restore a colored image were thus preserved. In this project we use the digitized RGB glass plate negatives to reconstruct the Russian Empire in color!
   <br><br>
   To learn more about Prokudin-Gorsky's record click <a href="http://www.loc.gov/exhibits/empire/making.html">here</a>.
 
@@ -45,7 +45,7 @@
 
 <h2 align="middle">Process</h2>
 <p>
-  This is a rough overview of the image processing method used after extracting the color channel images:
+  This is a rough overview of the image processing done after extracting the color channel images:
   <ol type="1">
     <li>Align the 3 channels using edge detection and pyramid technique</li>
     <li>Crop the borders of the image</li>
@@ -81,10 +81,9 @@
   are different in the red, green, and blue color channels look similar. As edges are edges in all channels 
   the results are better if we align based on them.
 
-  As we can see since the color values are very different in the different channels at the clothing. If we align based on pixel values we assume that pixel values over different channels are similar if we aligned correctly which is not the case.
+  As we can see since in the image of the Emir the color values are very different in the different channels at the clothing. If we align based on pixel values we assume that pixel values over different channels are similar if we aligned correctly which is not the case.
 
   However the channels align better if we do a edge detection first.
-
 
   To do edge detection we first convolve with a 5x5 Gaussian filter to smooth our image in order to reduce our sensitivity to noise.
   Then we convolve with the horizontal and vertical <a href="https://en.wikipedia.org/wiki/Sobel_operator">Sobel filter</a> to detect horizontal and vertical edges to get the gradients. We then take the gradient of the image to be the magnitude of the horizontal and vertical gradient.
