@@ -1,9 +1,78 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
-
 <head>
-  <style>
-    body {
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Next & previous buttons */
+.prev2, .next2 {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+
+  background-color: #f1f1f1;
+  color: black;
+
+
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.next2 {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a grey background color */
+.prev:hover, .next:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.prev2:hover, .next2:hover {
+  background-color: white;
+  color: black;
+}
+
+
+body {
       padding: 100px;
       width: 1000px;
       margin: auto;
@@ -20,7 +89,12 @@
   <title>CS194-26</title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</style>
 </head>
+
+
+
+
 
 
 <body>
@@ -60,15 +134,42 @@
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/input/emir_.jpg" align="middle" width="400px"/>
+        <img src="images/input/emir_.jpg" align="middle" width="300px"/>
         <figcaption align="middle">Blue, Green, and Red filters</figcaption>
       </td>
       <br>
       <td>
-        <img src="images/emir/emir_out.jpg" align="middle" width="600px"/>
-        <figcaption align="middle">
+
+        <div class="slideshow-container" style="width:500px">
+          
+
+          <div class="emir_">
+            <img src="images/emir/emir_naive.jpg" style="width:100%">
+            <figcaption align="middle">
           <a href="https://en.wikipedia.org/wiki/Mohammed_Alim_Khan">Emir Said Mir Mohammed Alim Khan</a>
-        </figcaption>
+        </figcaption>          </div>
+
+          <div class="emir_">
+            <img src="images/emir/emir_aligned.jpg" style="width:100%">
+            <figcaption align="middle">
+          <a href="https://en.wikipedia.org/wiki/Mohammed_Alim_Khan">Emir Said Mir Mohammed Alim Khan</a>
+        </figcaption>          </div>
+
+          <div class="emir_">
+            <img src="images/emir/emir_cut.jpg" style="width:100%">
+            <figcaption align="middle">
+          <a href="https://en.wikipedia.org/wiki/Mohammed_Alim_Khan">Emir Said Mir Mohammed Alim Khan</a>
+        </figcaption>          </div>
+
+          <div class="emir_">
+            <img src="images/emir/emir_out.jpg" style="width:100%">
+            <figcaption align="middle">
+          <a href="https://en.wikipedia.org/wiki/Mohammed_Alim_Khan">Emir Said Mir Mohammed Alim Khan</a>
+        </figcaption>          </div>
+
+          <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+        </div>
       </td>
     </tr>
   </table>
@@ -94,7 +195,7 @@
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/screenshots/channels_emir.jpg" align="middle" width="800px"/>
+        <img src="images/screenshots/channels_emir.jpg" align="middle" width="850px"/>
         <figcaption align="middle">Emir with green and red filters</figcaption>
       </td>
       <br>
@@ -106,7 +207,7 @@
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/screenshots/edge_emir.jpg" align="middle" width="800px"/>
+        <img src="images/screenshots/edge_emir.jpg" align="middle" width="850px"/>
         <figcaption align="middle">Emir with green and red filters after edge detection</figcaption>
       </td>
       <br>
@@ -132,12 +233,12 @@ For example, if the image is 1600x1600 we decimate to 800x800 then 400x400. If w
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/lady/lady_naive.jpg" align="middle" width="500px"/>
+        <img src="images/lady/lady_naive.jpg" align="middle" width="400px"/>
         <figcaption align="middle">Lady image without alignment</figcaption>
       </td>
       <br>
       <td>
-        <img src="images/lady/lady_out.jpg" align="middle" width="500px"/>
+        <img src="images/lady/lady_out.jpg" align="middle" width="400px"/>
         <figcaption align="middle">Lady image with alignment</figcaption>
       </td>
     </tr>
@@ -158,12 +259,12 @@ To cut we again do a edge detection to detect long horizontal and vertical lines
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/train/train_aligned.jpg" align="middle" width="500px"/>
+        <img src="images/train/train_aligned.jpg" align="middle" width="400px"/>
         <figcaption align="middle">Train without cropping</figcaption>
       </td>
       <br>
       <td>
-        <img src="images/train/train_out.jpg" align="middle" width="500px"/>
+        <img src="images/train/train_out.jpg" align="middle" width="400px"/>
         <figcaption align="middle">Train with cropping</figcaption>
       </td>
     </tr>
@@ -184,12 +285,12 @@ To contrast we find the 1st and 99th percentile pixel values in a channel. We th
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/lugano/lugano_cut.jpg" align="middle" width="500px"/>
+        <img src="images/lugano/lugano_cut.jpg" align="middle" width="400px"/>
         <figcaption align="middle">Lugano without contrasting</figcaption>
       </td>
       <br>
       <td>
-        <img src="images/lugano/lugano_out.jpg" align="middle" width="500px"/>
+        <img src="images/lugano/lugano_out.jpg" align="middle" width="400px"/>
         <figcaption align="middle">Lugano with contrasting</figcaption>
       </td>
     </tr>
@@ -199,200 +300,212 @@ To contrast we find the 1st and 99th percentile pixel values in a channel. We th
 
 
 
+<br>
+<br>
+<br>
+<br>
+<h3 align="middle">Whole Process (Slideshow)</h3>
 
-<h4 align="middle">Whole Process</h4>
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/village/village_naive.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Village image naive alignment</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/village/village_aligned.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Village image with alignment</figcaption>
-    </tr>
-  </table>
-</div>
-
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/village/village_aligned.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Village image no cropping</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/village/village_cut.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Village image with cropping</figcaption>
-    </tr>
-  </table>
-</div>
-
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/village/village_cut.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Village image no contrasting</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/village/village_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Village image with contrasting (Final Result)</figcaption>
-    </tr>
-  </table>
-</div>
+<div class="slideshow-container" style="width:600px">
+          
 
 
+          <div class="wholeProcess">
+            <img src="images/village/village_naive.jpg" style="width:100%">
+            <figcaption align="middle">Village image no alignment</figcaption>
+
+          </div>
+
+          <div class="wholeProcess">
+            <img src="images/village/village_aligned.jpg" style="width:100%">
+            <figcaption align="middle">Village image with alignment</figcaption>
+          </div>
+
+          <div class="wholeProcess">
+            <img src="images/village/village_cut.jpg" style="width:100%">
+            <figcaption align="middle">Village image with cropping</figcaption>
+          </div>
+
+          <div class="wholeProcess">
+            <img src="images/village/village_out.jpg" style="width:100%">
+            <figcaption align="middle">Village image with contrasting (Final Result)</figcaption>
+          </div>
+
+
+          <a class="prev2" onclick="plusSlides(-1, 1)">&#10094;</a>
+          <a class="next2" onclick="plusSlides(1, 1)">&#10095;</a>
+        </div>
 
 
 
 
 <br><br>
-<h4 align="middle">Final Results and Shifts</h4>
-<div align="middle">
+<h3 align="middle">Final Results and Shifts (Click on arrows to see progression)</h3>
+
+
+
+
+<script>
+
+var slideIndex = [];
+var slideIds = [];
+var index = 0;
+
+// For initial slideshow that has the whole process
+slideIndex.push(3)
+slideIds.push("emir_")
+index = index + 1 
+showSlides(0,0);
+
+slideIndex.push(0)
+slideIds.push("wholeProcess")
+index = index + 1 
+showSlides(0,1); // 1 corresponds to "wholeProcess" being slideIds[1]
+
+
+addSlides('cathedral','Cathedral; red(12,3), green(5,2)','monastery', 'Monastery; red(3,2), green (-3,2)')
+addSlides('nativity','Nativity; red(8,0), green(3,1)','settlers', 'Settlers; red(15,1), green (7,0)')
+addSlides('emir','Emir; red(107,40), green(49,23)','harvesters', 'Harvesters; red(123,6), green (60,17)')
+addSlides('icon','Icon; red(91,23), green(42,17)','lady', 'Lady; red(119,11), green (58,-6)')
+addSlides('self_portrait','self_portrait; red(175,36), green(42,17)','three_generations', 'Three_generations; red(111,7), green(52,8)')
+addSlides('train','Train; red(85,29), green(41,1)','turkmen', 'Turkmen; red(117,27), green (56,21)')
+addSlides('village','Village; red(138,25), green(64,12)','sacks', 'Sacks; red(123,11), green (52,14)')
+addSlides('lugano','Lugano; red(91,-29), green(41,-11)','lugano2', 'Lugano2; red(86,38), green (37,12)')
+addSlides('roses','Roses; red(82,35), green(31,21)','cotton', 'Cotton; red(154,13), green(75,11)')
+
+
+
+function plusSlides(n, no) {
+  showSlides(slideIndex[no] += n, no);
+
+}
+
+
+function showSlides(n, no) {
+  var i;
+  var x = document.getElementsByClassName(slideIds[no]);
+
+  if (n > x.length-1) {slideIndex[no] = 0}    
+  if (n < 0) {slideIndex[no] = x.length-1}
+  
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";  
+  }
+
+  x[slideIndex[no]].style.display = "block";  
+}
+
+
+
+
+function addSlides(imname1, caption1, imname2, caption2) {
+  slideIndex.push(0,0);
+  slideIds.push(imname1);
+  slideIds.push(imname2);
+
+  divString = createDivString(imname1, caption1, imname2, caption2);
+
+  var div = document.createElement('div');
+  div.innerHTML = divString;
+  document.body.appendChild(div);
+
+  showSlides(0, index-2);
+  showSlides(0, index-1);
+}
+
+function createSmallDivString(imname1, caption1) {
+  divString = `<div class="slideshow-container" style="width:420px">
+          <div class="`
+
+          + imname1
+
+          + `">
+            <img src="images/`
+
+          + imname1 + '/' + imname1
+
+          + `_out.jpg" style="width:100%">
+            <figcaption align="middle">Contrasted; `
+
+          + caption1
+          + `</figcaption>
+          </div>
+
+          <div class="`
+          + imname1
+          + `">
+            <img src="images/`
+
+          + imname1 + '/' + imname1
+          + `_naive.jpg" style="width:100%">
+            <figcaption align="middle">no alignment</figcaption>
+          </div>
+
+          <div class="`
+          + imname1
+          + `">
+            <img src="images/`
+          + imname1 + '/' + imname1
+          + `_aligned.jpg" style="width:100%">
+            <figcaption align="middle">aligned</figcaption>
+          </div>
+
+          <div class="`
+          + imname1
+          + `">
+            <img src="images/`
+          + imname1 + '/' + imname1
+          + `_cut.jpg" style="width:100%">
+            <figcaption align="middle">cut</figcaption>
+          </div>
+          <a class="prev" onclick="plusSlides(-1, `
+          + index.toString()
+          + `)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1, `
+          + index.toString()
+          + `)">&#10095;</a>
+        </div>`
+        index = index + 1
+  return divString
+}
+
+function createDivString(imname1, caption1, imname2, caption2) {
+  beg = `<div align="middle">
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/cathedral/cathedral_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Cathedral; red(12,3), green(5,2)</figcaption>
-      </td>
+        ` + createSmallDivString(imname1, caption1)
+        + ` </td>
       <br>
-      <td>
-        <img src="images/monastery/monastery_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Monastery; red(3,2), green (-3,2)</figcaption>
-    </tr>
+      <td>`
+
+
+      + createSmallDivString(imname2, caption2)
+
+      + `    </tr>
   </table>
-</div>
+</div>`
 
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/nativity/nativity_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Nativity; red(8,0), green(3,1)</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/settlers/settlers_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Settlers; red(15,1), green (7,0)</figcaption>
-    </tr>
-  </table>
-</div>
-
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/emir/emir_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Emir; red(107,40), green(49,23)</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/harvesters/harvesters_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Harvesters; red(123,6), green (60,17)</figcaption>
-    </tr>
-  </table>
-</div>
+  return beg;
+}
 
 
-
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/icon/icon_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Icon; red (91,23), green(42,17)</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/lady/lady_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Lady; red (119,11), green (58,-6)</figcaption>
-    </tr>
-  </table>
-</div>
+</script>
 
 
-
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/self_portrait/self_portrait_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">self_portrait; red (175,36), green(42,17)</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/three_generations/three_generations_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Three_generations; red (111,7), green (52,8)</figcaption>
-    </tr>
-  </table>
-</div>
-
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/train/train_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Train; red (85,29), green(41,1)</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/turkmen/turkmen_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Turkmen; red (117,27), green (56,21)</figcaption>
-    </tr>
-
-  </table>
-</div>
-
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/village/village_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Village; red (138,25), green(64,12)</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/sacks/sacks_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Sacks; red (123,11), green (52,14)</figcaption>
-    </tr>
-  </table>
-</div>
-
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/lugano/lugano_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Lugano; red (91,-29), green(41,-11)</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/lugano2/lugano2_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Lugano2; red (86,38), green (37,12)</figcaption>
-    </tr>
-  </table>
-</div>
-
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/roses/roses_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Roses; red (82,35), green(31,21)</figcaption>
-      </td>
-      <br>
-      <td>
-        <img src="images/cotton/cotton_out.jpg" align="middle" width="500px"/>
-        <figcaption align="middle">Cotton; red (154,13), green (75,11)</figcaption>
-    </tr>
-  </table>
-</div>
 
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
